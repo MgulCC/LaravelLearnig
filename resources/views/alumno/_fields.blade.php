@@ -21,5 +21,5 @@
 <input type="file" name="foto" id="foto">
 <br/>
 
-<input type="submit" value="Enviar">
+<input type="submit" value="{{ $modo }} alumno">
 <a href="{{ url('alumno') }}">volver</a>

@@ -11,7 +11,7 @@
     <form action="{{ url('/alumno/' . $alumno->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        @include('alumno._fields')
+        @include('alumno._fields', ['modo' => 'Editar'])
 
     </form>
 </body>
