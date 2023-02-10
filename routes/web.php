@@ -26,9 +26,20 @@ use App\Http\Controllers\AlumnoController;
 
 // Route::get('/alumno/create', [AlumnoController::class, 'create']);
 
-Route::resource('alumno', AlumnoController::class);
+Route::resource('alumno', AlumnoController::class)->middleware('auth');
 
 //definimos que rutas en concreto queremos
 // Route::resource('alumno', AlumnoController::class)->only([
 //     'index', 'show'
 // ]);
+
+//esta linea esta creando la ruta de login etc
+Auth::routes(['register' => false, 'reset' => false]); //podemos decirle que desactive algunas seciones como registrarse o contraseña nueva
+
+//la ruta de home
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//cuando se inicia login nos lleva a la pagina de alumnos creados
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/', [AlumnoController::class, 'index'])->name('home');
+});
