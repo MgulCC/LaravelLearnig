@@ -46,6 +46,32 @@ class AlumnoController extends Controller
      */
     public function store(Request $request)
     {   
+        //validacion
+        $campos = [
+            'nombre' => 'required|string|max:250',
+            'apellido' => 'required|string|max:250',
+            'email' => 'required|email',
+            'edad'=> 'required|int|min:6|max:100' ,
+            'direccion' => 'required|string|max:250',
+            'foto' => 'required|max:20480000|mimes:jpg,png'
+        ];
+
+        //los mensajes de error
+        $mensaje = [
+            'required' => 'El campo :attribute es obligatorio',
+            'foto.required' => 'la foto es obligatoria',
+            'edad.required' => 'la edad es obligatoria',
+            'direccion.required' => 'la direccion es obligatoria',
+            'max' => 'El campo :atribute no puede ternetr mas de :max caracteres',
+            'foto.max' => 'La foto no puede ser mator de :max bytes',
+            'email.email' => 'el email no tiene el formato correcto',
+            'foto.mimes' => 'La foto debe estar en uno de los siguientres formatos :values'
+
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
+
         $datosAlumnos = $request->except('_token');
         if($request->hasFile('foto')){ //si en request hay un fichero con la clave foto
             $datosAlumnos['foto'] = $request->file('foto')->store('uploads', 'public'); //guardala aqui

@@ -4,10 +4,12 @@
 <div class="container">
     @if (Session::has('mensaje'))
         <br>
-        {{ Session::get('mensaje') }}
+        <div class="alert alert-success">
+            {{ Session::get('mensaje') }}
+        </div>
     @endif
     Listado de alumnos
-    <a href="{{ url('alumno/create') }}">Registrar alumno</a>
+    <a href="{{ url('alumno/create') }}" class="btn btn-info">Registrar alumno</a>
     <hr>
     <table class="table table-light">
         <thead class="thead-light">
@@ -28,7 +30,7 @@
             <tr>
                 <td>{{ $alumno->id }}</td>
                 <td>
-                <img src="{{ asset('storage') . '/' . $alumno->foto }}" width="50" />
+                    <img src="{{ asset('storage') . '/' . $alumno->foto }}" class="img-thumbnail img-fluid" width="50" />
                 </td>
                 <td>{{$alumno->nombre}}</td>
                 <td>{{$alumno->apellido}}</td>
@@ -36,13 +38,15 @@
                 <td>{{$alumno->edad}}</td>
                 <td>{{$alumno->direccion}}</td>
                 <td>
-                    <a href="{{ url('alumno/' . $alumno->id) }}">ver</a>
-                    <a href="{{ url('alumno/' . $alumno->id . '/edit') }}">editar</a>
-                    <form action="{{url('alumno/' . $alumno->id) }}" method="post">
-                        @csrf
-                        {{ method_field('DELETE') }}
-                        <input type="submit" onclick="return confirm('se va a elmiminar el registro #{{ $alumno->id}}')" value="Borrar">
-                    </form>
+                    <div class="btn-group" role="group">
+                        <a href="{{ url('alumno/' . $alumno->id) }}" class="btn btn-primary">ver</a>
+                        <a href="{{ url('alumno/' . $alumno->id . '/edit') }}" class="btn btn-warning">editar</a>
+                        <form action="{{url('alumno/' . $alumno->id) }}" method="post">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                            <input type="submit" onclick="return confirm('se va a elmiminar el registro #{{ $alumno->id}}')" class="btn btn-danger" value="Borrar">
+                        </form>
+                    </div>
                 </td>
             </tr>
             @endforeach
