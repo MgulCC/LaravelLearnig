@@ -101,7 +101,6 @@ class AlumnoApiController extends Controller
         
         if($request->hasFile('foto')){
             //si viene una foto. eliminamos la antigua y guardamos la nueva
-            //$alumno = Alumno::findOrFail($id);
             Storage::delete('public/' . $alumno->foto);
             $data['foto'] = $request->file('foto')->store('uploads', 'public');  
         }
