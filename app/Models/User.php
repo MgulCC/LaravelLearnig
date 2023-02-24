@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject; //implementar esto
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject //y tambien implementar el JWTSUbject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable; // esto tambien se implementa y eliminamos el use laravel,hasapitokens
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +41,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'activo' =>'boolean',
     ];
+
+    //dos funciones para el indfentificador que se tienen que implementar
+    public function getJWTIdentifier(){
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(){
+        return [];
+    }
+
+    public function isAdmin(){
+        //esrto seria una funcion para omprobar si el usuario es administrador o no
+        return $this->rol == 1;
+    }
 
     //relacion 1 a muchos de la tabla post, un usuario tiene muchos post
     public function posts(){

@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('scripts')
 </head>
 <body>
     <div id="app">
@@ -33,7 +34,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @if( auth()->check())
+                        <li class="nav-item">
+                            <!-- añadir enlaces en el menu -->
+                            <a class="nav-link" href="{{ route('alumno.index') }}">{{ __('Alumnos') }}
+                        </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -81,4 +87,5 @@
     </div>
     @yield('footer')
 </body>
+@yield('datatable')
 </html>

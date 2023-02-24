@@ -14,7 +14,7 @@ class Alumno extends Model // Alumno => alumnos
     protected $table = "alumnos";
 
     //propiedad fillable/ visaualizar los campos de las tablas en las consultas SQL
-    protected $fillable = ['nombre', 'apellido', 'email', 'edad', 'direccioo'];
+    protected $fillable = ['nombre', 'apellido', 'email', 'edad', 'direccion', 'foto'];
 
     //propiedad hidden/ ocultar los campos de las tablas en las consultas SQL
     protected $hidden = ['id'];

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 class AlumnoController extends Controller
-{
+{   
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +18,10 @@ class AlumnoController extends Controller
     public function index()
     {
         //enviamos todos los datos para que los muestre
-        $datos['alumnos'] = Alumno::all(); //-activa esto para que nos devuelva todo
+        //$datos['alumnos'] = Alumno::all(); //-activa esto para que nos devuelva todo
 
         //laravel permite paginar
-        //$datos['alumnos'] = Alumno::paginate(3);
+        $datos['alumnos'] = Alumno::paginate(3);
         // $edad = 18;
         // $datos['alumnos'] = DB::select('select * from alumnos where edad > ? AND apellido = ?', [$edad, 'Bolson']);
         //DB::select('select * from alumnos where edad > :edad AND apellido = :ap', ['edad' => $edad, 'ap' => "Bolson"]);
@@ -129,6 +129,30 @@ class AlumnoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //validacion
+        $campos = [
+            'nombre' => 'required|string|max:250',
+            'apellido' => 'required|string|max:250',
+            'email' => 'required|email',
+            'edad'=> 'required|int|min:6|max:100' ,
+            'direccion' => 'required|string|max:250',
+            'foto' => 'max:20480000|mimes:jpg,png'
+        ];
+
+        //los mensajes de error
+        $mensaje = [
+            'required' => 'El campo :attribute es obligatorio',
+            'edad.required' => 'la edad es obligatoria',
+            'direccion.required' => 'la direccion es obligatoria',
+            'max' => 'El campo :atribute no puede ternetr mas de :max caracteres',
+            'foto.max' => 'La foto no puede ser mator de :max bytes',
+            'email.email' => 'el email no tiene el formato correcto',
+            'foto.mimes' => 'La foto debe estar en uno de los siguientres formatos :values'
+
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
         $datosAlumno = request()->except('_token', '_method');
 
         if($request->hasFile('foto')){
@@ -142,13 +166,15 @@ class AlumnoController extends Controller
         //Alumno::where('id', '=', $id)->update($datosAlumno); //-> activa esto
         //dd($datosAlumno); //-> y esto
 
-        $affected = DB::update('update alumnos set direccion = "San Joaquin" where id < ?', [10]);
-        echo "se ha modificado $affected alumnos";
-        dd($affected);
+        // $affected = DB::update('update alumnos set direccion = "San Joaquin" where id < ?', [10]);
+        // echo "se ha modificado $affected alumnos";
+        // dd($affected);
 
         $alumno = Alumno::findOrFail($id);
 
-        return view('alumno.edit', compact('alumno'));
+        //return view('alumno.edit', compact('alumno'));
+
+        return redirect('alumno')->with('mensaje', 'se ha registrado a ' . $datosAlumno['nombre']);
     }
 
     /**

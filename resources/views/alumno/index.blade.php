@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('scripts')
+<link href="https:////cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="https:////ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script src="https:////cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+<script src="https:////cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>
+
+@endsection
+
 @section('content')
 <div class="container">
     @if (Session::has('mensaje'))
@@ -11,8 +19,8 @@
     Listado de alumnos
     <a href="{{ url('alumno/create') }}" class="btn btn-info">Registrar alumno</a>
     <hr>
-    <table class="table table-light">
-        <thead class="thead-light">
+    <table class="table data-table">
+        <thead>
             <tr>
                 <th>#</th>
                 <th>foto</th>
@@ -53,5 +61,17 @@
             
         </tbody>
     </table>
+    {!! $alumnos->links() !!}
 </div>
+@endsection
+
+
+@section('datatable')
+<script>
+    $(document).ready(function(){
+        $('.data-table').DataTable({
+
+        });
+    });
+</script>
 @endsection

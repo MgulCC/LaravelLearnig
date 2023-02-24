@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumnoController;
+use App\Mail\Notificacion;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -43,3 +45,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', [AlumnoController::class, 'index'])->name('home');
 });
+
+
+Route::get('/email',function(){
+    //return (new Notificacion("Miguel"))->render();
+    $mensaje = new Notificacion("Miguel");
+
+    //$response = Mail::to("miguel.carpio@escuelaestech.es")->cc("cayetano.ledesma@escuelaestech.es")->bcc("jesus.martinez@escuelaestech.es")->send($mensaje); //queue en vez de send para un envio asincrono
+    $response = Mail::to("miguel.carpio@escuelaestech.es")->send($mensaje);
+    dump($response);
+});
+
+
+
+
+//-------
