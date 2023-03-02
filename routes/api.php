@@ -40,6 +40,9 @@ Route::prefix('v1')->group(function(){
 
         //hacer un update
         Route::put('alumnos/{id}', [AlumnoApiController::class, 'update']);
+
+        //hacer un destroy
+        Route::delete('alumnos/{id}', [AlumnoApiController::class, 'destroy']);
     });
 
 });

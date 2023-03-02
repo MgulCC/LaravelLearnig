@@ -113,4 +113,27 @@ class AlumnoApiController extends Controller
             'data' => $alumno
         ], Response::HTTP_OK);
     }
+
+    //funcion para elimonar el alumno
+    public function destroy($id){
+        //buscamos el alumno
+        $alumno = Alumno::find($id);
+
+        if($alumno){
+
+            //eliminamos el alumno
+            $alumno->delete();
+
+            //devolvemos respuesta
+            return response()->json([
+                'messsage' => 'Alumno delete succesfully'
+            ]);
+
+        }else{
+            //Devolvemos respuesta
+            return response()->json([
+                'messsage' => 'Alumno no existe'
+            ], 401);
+        }
+    }
 }
